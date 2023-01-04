@@ -30,6 +30,7 @@ export const OrderShow = (props: ShowProps): React.ReactElement => {
         <ReferenceField label="Product" source="product.id" reference="Product">
           <TextField source={PRODUCT_TITLE_FIELD} />
         </ReferenceField>
+        <TextField label="ooo" source="ooo" />
       </SimpleShowLayout>
     </Show>
   );

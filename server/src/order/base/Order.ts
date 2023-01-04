@@ -99,6 +99,17 @@ class Order {
   @Type(() => Product)
   @IsOptional()
   product?: Product | null;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  ooo!: string | null;
 }
 
 export { Order };

@@ -284,6 +284,8 @@ export class CustomerControllerBase {
             id: true,
           },
         },
+
+        ooo: true,
       },
     });
     if (results === null) {

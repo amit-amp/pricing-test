@@ -1,4 +1,5 @@
 import * as React from "react";
+
 import {
   Create,
   SimpleForm,
@@ -6,7 +7,9 @@ import {
   NumberInput,
   ReferenceInput,
   SelectInput,
+  TextInput,
 } from "react-admin";
+
 import { CustomerTitle } from "../customer/CustomerTitle";
 import { ProductTitle } from "../product/ProductTitle";
 
@@ -27,6 +30,7 @@ export const OrderCreate = (props: CreateProps): React.ReactElement => {
         <ReferenceInput source="product.id" reference="Product" label="Product">
           <SelectInput optionText={ProductTitle} />
         </ReferenceInput>
+        <TextInput label="ooo" source="ooo" />
       </SimpleForm>
     </Create>
   );

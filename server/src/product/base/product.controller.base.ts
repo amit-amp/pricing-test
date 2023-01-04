@@ -223,6 +223,8 @@ export class ProductControllerBase {
             id: true,
           },
         },
+
+        ooo: true,
       },
     });
     if (results === null) {
