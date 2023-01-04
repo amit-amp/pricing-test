@@ -9,4 +9,5 @@ export type CustomerOrderByInput = {
   email?: SortOrder;
   phone?: SortOrder;
   addressId?: SortOrder;
+  ccc?: SortOrder;
 };

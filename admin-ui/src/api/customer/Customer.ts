@@ -11,4 +11,5 @@ export type Customer = {
   phone: string | null;
   orders?: Array<Order>;
   address?: Address | null;
+  ccc: string | null;
 };

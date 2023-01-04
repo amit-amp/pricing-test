@@ -16,6 +16,7 @@ model User {
   username  String   @unique
   password  String
   roles     Json
+  testTest  String?
 }
 
 model Order {
@@ -42,6 +43,7 @@ model Customer {
   orders    Order[]
   address   Address? @relation(fields: [addressId], references: [id])
   addressId String?
+  ccc       String?
 }
 
 model Address {

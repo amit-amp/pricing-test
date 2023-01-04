@@ -228,6 +228,8 @@ export class AddressControllerBase {
             id: true,
           },
         },
+
+        ccc: true,
       },
     });
     if (results === null) {
