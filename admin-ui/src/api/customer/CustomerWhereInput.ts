@@ -2,6 +2,7 @@ import { StringFilter } from "../../util/StringFilter";
 import { StringNullableFilter } from "../../util/StringNullableFilter";
 import { OrderListRelationFilter } from "../order/OrderListRelationFilter";
 import { AddressWhereUniqueInput } from "../address/AddressWhereUniqueInput";
+import { TestListRelationFilter } from "../test/TestListRelationFilter";
 
 export type CustomerWhereInput = {
   id?: StringFilter;
@@ -11,4 +12,5 @@ export type CustomerWhereInput = {
   phone?: StringNullableFilter;
   orders?: OrderListRelationFilter;
   address?: AddressWhereUniqueInput;
+  tests?: TestListRelationFilter;
 };

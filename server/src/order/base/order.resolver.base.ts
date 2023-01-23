@@ -27,6 +27,7 @@ import { OrderFindUniqueArgs } from "./OrderFindUniqueArgs";
 import { Order } from "./Order";
 import { Customer } from "../../customer/base/Customer";
 import { Product } from "../../product/base/Product";
+import { Test } from "../../test/base/Test";
 import { OrderService } from "../order.service";
 
 @graphql.Resolver(() => Order)
@@ -108,6 +109,12 @@ export class OrderResolverBase {
               connect: args.data.product,
             }
           : undefined,
+
+        tests: args.data.tests
+          ? {
+              connect: args.data.tests,
+            }
+          : undefined,
       },
     });
   }
@@ -137,6 +144,12 @@ export class OrderResolverBase {
           product: args.data.product
             ? {
                 connect: args.data.product,
+              }
+            : undefined,
+
+          tests: args.data.tests
+            ? {
+                connect: args.data.tests,
               }
             : undefined,
         },
@@ -197,6 +210,22 @@ export class OrderResolverBase {
   })
   async product(@graphql.Parent() parent: Order): Promise<Product | null> {
     const result = await this.service.getProduct(parent.id);
+
+    if (!result) {
+      return null;
+    }
+    return result;
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @graphql.ResolveField(() => Test, { nullable: true })
+  @nestAccessControl.UseRoles({
+    resource: "Test",
+    action: "read",
+    possession: "any",
+  })
+  async tests(@graphql.Parent() parent: Order): Promise<Test | null> {
+    const result = await this.service.getTests(parent.id);
 
     if (!result) {
       return null;

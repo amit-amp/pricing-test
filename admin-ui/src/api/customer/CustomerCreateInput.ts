@@ -1,5 +1,6 @@
 import { OrderCreateNestedManyWithoutCustomersInput } from "./OrderCreateNestedManyWithoutCustomersInput";
 import { AddressWhereUniqueInput } from "../address/AddressWhereUniqueInput";
+import { TestCreateNestedManyWithoutCustomersInput } from "./TestCreateNestedManyWithoutCustomersInput";
 
 export type CustomerCreateInput = {
   firstName?: string | null;
@@ -8,4 +9,5 @@ export type CustomerCreateInput = {
   phone?: string | null;
   orders?: OrderCreateNestedManyWithoutCustomersInput;
   address?: AddressWhereUniqueInput | null;
+  tests?: TestCreateNestedManyWithoutCustomersInput;
 };

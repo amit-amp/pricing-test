@@ -22,6 +22,7 @@ import {
 import { Type } from "class-transformer";
 import { Customer } from "../../customer/base/Customer";
 import { Product } from "../../product/base/Product";
+import { Test } from "../../test/base/Test";
 
 @ObjectType()
 class Order {
@@ -99,6 +100,15 @@ class Order {
   @Type(() => Product)
   @IsOptional()
   product?: Product | null;
+
+  @ApiProperty({
+    required: false,
+    type: () => Test,
+  })
+  @ValidateNested()
+  @Type(() => Test)
+  @IsOptional()
+  tests?: Test | null;
 }
 
 export { Order };

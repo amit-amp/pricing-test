@@ -1,4 +1,5 @@
 import { InputJsonValue } from "../../types";
+import { TestWhereUniqueInput } from "../test/TestWhereUniqueInput";
 
 export type UserCreateInput = {
   firstName?: string | null;
@@ -6,4 +7,5 @@ export type UserCreateInput = {
   username: string;
   password: string;
   roles: InputJsonValue;
+  tests?: TestWhereUniqueInput | null;
 };

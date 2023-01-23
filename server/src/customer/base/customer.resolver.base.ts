@@ -27,6 +27,8 @@ import { CustomerFindUniqueArgs } from "./CustomerFindUniqueArgs";
 import { Customer } from "./Customer";
 import { OrderFindManyArgs } from "../../order/base/OrderFindManyArgs";
 import { Order } from "../../order/base/Order";
+import { TestFindManyArgs } from "../../test/base/TestFindManyArgs";
+import { Test } from "../../test/base/Test";
 import { Address } from "../../address/base/Address";
 import { CustomerService } from "../customer.service";
 
@@ -177,6 +179,26 @@ export class CustomerResolverBase {
     @graphql.Args() args: OrderFindManyArgs
   ): Promise<Order[]> {
     const results = await this.service.findOrders(parent.id, args);
+
+    if (!results) {
+      return [];
+    }
+
+    return results;
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @graphql.ResolveField(() => [Test])
+  @nestAccessControl.UseRoles({
+    resource: "Test",
+    action: "read",
+    possession: "any",
+  })
+  async tests(
+    @graphql.Parent() parent: Customer,
+    @graphql.Args() args: TestFindManyArgs
+  ): Promise<Test[]> {
+    const results = await this.service.findTests(parent.id, args);
 
     if (!results) {
       return [];

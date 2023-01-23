@@ -13,6 +13,7 @@ import {
 
 import { CUSTOMER_TITLE_FIELD } from "../customer/CustomerTitle";
 import { PRODUCT_TITLE_FIELD } from "./ProductTitle";
+import { TEST_TITLE_FIELD } from "../test/TestTitle";
 
 export const ProductShow = (props: ShowProps): React.ReactElement => {
   return (
@@ -45,6 +46,9 @@ export const ProductShow = (props: ShowProps): React.ReactElement => {
               reference="Product"
             >
               <TextField source={PRODUCT_TITLE_FIELD} />
+            </ReferenceField>
+            <ReferenceField label="Tests" source="test.id" reference="Test">
+              <TextField source={TEST_TITLE_FIELD} />
             </ReferenceField>
           </Datagrid>
         </ReferenceManyField>

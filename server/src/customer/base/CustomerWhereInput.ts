@@ -17,6 +17,7 @@ import { IsOptional, ValidateNested } from "class-validator";
 import { StringNullableFilter } from "../../util/StringNullableFilter";
 import { OrderListRelationFilter } from "../../order/base/OrderListRelationFilter";
 import { AddressWhereUniqueInput } from "../../address/base/AddressWhereUniqueInput";
+import { TestListRelationFilter } from "../../test/base/TestListRelationFilter";
 
 @InputType()
 class CustomerWhereInput {
@@ -98,6 +99,18 @@ class CustomerWhereInput {
     nullable: true,
   })
   address?: AddressWhereUniqueInput;
+
+  @ApiProperty({
+    required: false,
+    type: () => TestListRelationFilter,
+  })
+  @ValidateNested()
+  @Type(() => TestListRelationFilter)
+  @IsOptional()
+  @Field(() => TestListRelationFilter, {
+    nullable: true,
+  })
+  tests?: TestListRelationFilter;
 }
 
 export { CustomerWhereInput };

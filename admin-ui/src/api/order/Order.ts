@@ -1,5 +1,6 @@
 import { Customer } from "../customer/Customer";
 import { Product } from "../product/Product";
+import { Test } from "../test/Test";
 
 export type Order = {
   id: string;
@@ -10,4 +11,5 @@ export type Order = {
   totalPrice: number | null;
   customer?: Customer | null;
   product?: Product | null;
+  tests?: Test | null;
 };

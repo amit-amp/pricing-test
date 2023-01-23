@@ -25,6 +25,7 @@ import { DeleteUserArgs } from "./DeleteUserArgs";
 import { UserFindManyArgs } from "./UserFindManyArgs";
 import { UserFindUniqueArgs } from "./UserFindUniqueArgs";
 import { User } from "./User";
+import { Test } from "../../test/base/Test";
 import { UserService } from "../user.service";
 
 @graphql.Resolver(() => User)
@@ -90,7 +91,15 @@ export class UserResolverBase {
   async createUser(@graphql.Args() args: CreateUserArgs): Promise<User> {
     return await this.service.create({
       ...args,
-      data: args.data,
+      data: {
+        ...args.data,
+
+        tests: args.data.tests
+          ? {
+              connect: args.data.tests,
+            }
+          : undefined,
+      },
     });
   }
 
@@ -105,7 +114,15 @@ export class UserResolverBase {
     try {
       return await this.service.update({
         ...args,
-        data: args.data,
+        data: {
+          ...args.data,
+
+          tests: args.data.tests
+            ? {
+                connect: args.data.tests,
+              }
+            : undefined,
+        },
       });
     } catch (error) {
       if (isRecordNotFoundError(error)) {
@@ -134,5 +151,21 @@ export class UserResolverBase {
       }
       throw error;
     }
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @graphql.ResolveField(() => Test, { nullable: true })
+  @nestAccessControl.UseRoles({
+    resource: "Test",
+    action: "read",
+    possession: "any",
+  })
+  async tests(@graphql.Parent() parent: User): Promise<Test | null> {
+    const result = await this.service.getTests(parent.id);
+
+    if (!result) {
+      return null;
+    }
+    return result;
   }
 }

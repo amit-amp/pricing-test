@@ -10,6 +10,7 @@ import {
 import Pagination from "../Components/Pagination";
 import { CUSTOMER_TITLE_FIELD } from "../customer/CustomerTitle";
 import { PRODUCT_TITLE_FIELD } from "../product/ProductTitle";
+import { TEST_TITLE_FIELD } from "../test/TestTitle";
 
 export const OrderList = (props: ListProps): React.ReactElement => {
   return (
@@ -36,6 +37,9 @@ export const OrderList = (props: ListProps): React.ReactElement => {
         </ReferenceField>
         <ReferenceField label="Product" source="product.id" reference="Product">
           <TextField source={PRODUCT_TITLE_FIELD} />
+        </ReferenceField>
+        <ReferenceField label="Tests" source="test.id" reference="Test">
+          <TextField source={TEST_TITLE_FIELD} />
         </ReferenceField>
       </Datagrid>
     </List>
