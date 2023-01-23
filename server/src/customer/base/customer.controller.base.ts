@@ -30,6 +30,9 @@ import { Customer } from "./Customer";
 import { OrderFindManyArgs } from "../../order/base/OrderFindManyArgs";
 import { Order } from "../../order/base/Order";
 import { OrderWhereUniqueInput } from "../../order/base/OrderWhereUniqueInput";
+import { TestFindManyArgs } from "../../test/base/TestFindManyArgs";
+import { Test } from "../../test/base/Test";
+import { TestWhereUniqueInput } from "../../test/base/TestWhereUniqueInput";
 @swagger.ApiBearerAuth()
 @common.UseGuards(defaultAuthGuard.DefaultAuthGuard, nestAccessControl.ACGuard)
 export class CustomerControllerBase {
@@ -274,6 +277,12 @@ export class CustomerControllerBase {
             id: true,
           },
         },
+
+        tests: {
+          select: {
+            id: true,
+          },
+        },
       },
     });
     if (results === null) {
@@ -340,6 +349,119 @@ export class CustomerControllerBase {
   ): Promise<void> {
     const data = {
       orders: {
+        disconnect: body,
+      },
+    };
+    await this.service.update({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @nestAccessControl.UseRoles({
+    resource: "Test",
+    action: "read",
+    possession: "any",
+  })
+  @common.Get("/:id/tests")
+  @ApiNestedQuery(TestFindManyArgs)
+  async findManyTests(
+    @common.Req() request: Request,
+    @common.Param() params: CustomerWhereUniqueInput
+  ): Promise<Test[]> {
+    const query = plainToClass(TestFindManyArgs, request.query);
+    const results = await this.service.findTests(params.id, {
+      ...query,
+      select: {
+        id: true,
+        createdAt: true,
+        updatedAt: true,
+
+        user: {
+          select: {
+            id: true,
+          },
+        },
+
+        oneToOne: {
+          select: {
+            id: true,
+          },
+        },
+
+        oneToOne_2: {
+          select: {
+            id: true,
+          },
+        },
+      },
+    });
+    if (results === null) {
+      throw new errors.NotFoundException(
+        `No resource was found for ${JSON.stringify(params)}`
+      );
+    }
+    return results;
+  }
+
+  @nestAccessControl.UseRoles({
+    resource: "Customer",
+    action: "update",
+    possession: "any",
+  })
+  @common.Post("/:id/tests")
+  async connectTests(
+    @common.Param() params: CustomerWhereUniqueInput,
+    @common.Body() body: TestWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      tests: {
+        connect: body,
+      },
+    };
+    await this.service.update({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @nestAccessControl.UseRoles({
+    resource: "Customer",
+    action: "update",
+    possession: "any",
+  })
+  @common.Patch("/:id/tests")
+  async updateTests(
+    @common.Param() params: CustomerWhereUniqueInput,
+    @common.Body() body: TestWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      tests: {
+        set: body,
+      },
+    };
+    await this.service.update({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @nestAccessControl.UseRoles({
+    resource: "Customer",
+    action: "update",
+    possession: "any",
+  })
+  @common.Delete("/:id/tests")
+  async disconnectTests(
+    @common.Param() params: CustomerWhereUniqueInput,
+    @common.Body() body: TestWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      tests: {
         disconnect: body,
       },
     };

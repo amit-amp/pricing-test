@@ -1,5 +1,6 @@
 import { OrderUpdateManyWithoutCustomersInput } from "./OrderUpdateManyWithoutCustomersInput";
 import { AddressWhereUniqueInput } from "../address/AddressWhereUniqueInput";
+import { TestUpdateManyWithoutCustomersInput } from "./TestUpdateManyWithoutCustomersInput";
 
 export type CustomerUpdateInput = {
   firstName?: string | null;
@@ -8,4 +9,5 @@ export type CustomerUpdateInput = {
   phone?: string | null;
   orders?: OrderUpdateManyWithoutCustomersInput;
   address?: AddressWhereUniqueInput | null;
+  tests?: TestUpdateManyWithoutCustomersInput;
 };

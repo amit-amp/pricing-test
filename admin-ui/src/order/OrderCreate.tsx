@@ -9,6 +9,7 @@ import {
 } from "react-admin";
 import { CustomerTitle } from "../customer/CustomerTitle";
 import { ProductTitle } from "../product/ProductTitle";
+import { TestTitle } from "../test/TestTitle";
 
 export const OrderCreate = (props: CreateProps): React.ReactElement => {
   return (
@@ -26,6 +27,9 @@ export const OrderCreate = (props: CreateProps): React.ReactElement => {
         </ReferenceInput>
         <ReferenceInput source="product.id" reference="Product" label="Product">
           <SelectInput optionText={ProductTitle} />
+        </ReferenceInput>
+        <ReferenceInput source="test.id" reference="Test" label="Tests">
+          <SelectInput optionText={TestTitle} />
         </ReferenceInput>
       </SimpleForm>
     </Create>

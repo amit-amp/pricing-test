@@ -15,6 +15,7 @@ import { IsInt, IsOptional, IsNumber, ValidateNested } from "class-validator";
 import { CustomerWhereUniqueInput } from "../../customer/base/CustomerWhereUniqueInput";
 import { Type } from "class-transformer";
 import { ProductWhereUniqueInput } from "../../product/base/ProductWhereUniqueInput";
+import { TestWhereUniqueInput } from "../../test/base/TestWhereUniqueInput";
 
 @InputType()
 class OrderCreateInput {
@@ -74,6 +75,18 @@ class OrderCreateInput {
     nullable: true,
   })
   product?: ProductWhereUniqueInput | null;
+
+  @ApiProperty({
+    required: false,
+    type: () => TestWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => TestWhereUniqueInput)
+  @IsOptional()
+  @Field(() => TestWhereUniqueInput, {
+    nullable: true,
+  })
+  tests?: TestWhereUniqueInput | null;
 }
 
 export { OrderCreateInput };

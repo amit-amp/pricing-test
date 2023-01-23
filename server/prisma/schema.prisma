@@ -31,6 +31,7 @@ model Order {
   customerId String?
   product    Product?  @relation(fields: [productId], references: [id])
   productId  String?
+  tests      Test?
 }
 
 model Customer {
@@ -44,6 +45,7 @@ model Customer {
   orders    Order[]
   address   Address? @relation(fields: [addressId], references: [id])
   addressId String?
+  tests     Test[]
 }
 
 model Address {
@@ -69,8 +71,12 @@ model Product {
 }
 
 model Test {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  user      User?
+  id           String    @id @default(cuid())
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  user         User?
+  oneToOne     Order?    @relation(fields: [oneToOneId], references: [id])
+  oneToOneId   String?   @unique
+  oneToOne_2   Customer? @relation(fields: [oneToOne_2Id], references: [id])
+  oneToOne_2Id String?
 }

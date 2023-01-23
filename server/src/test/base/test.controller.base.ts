@@ -54,6 +54,18 @@ export class TestControllerBase {
               connect: data.user,
             }
           : undefined,
+
+        oneToOne: data.oneToOne
+          ? {
+              connect: data.oneToOne,
+            }
+          : undefined,
+
+        oneToOne_2: data.oneToOne_2
+          ? {
+              connect: data.oneToOne_2,
+            }
+          : undefined,
       },
       select: {
         id: true,
@@ -61,6 +73,18 @@ export class TestControllerBase {
         updatedAt: true,
 
         user: {
+          select: {
+            id: true,
+          },
+        },
+
+        oneToOne: {
+          select: {
+            id: true,
+          },
+        },
+
+        oneToOne_2: {
           select: {
             id: true,
           },
@@ -93,6 +117,18 @@ export class TestControllerBase {
             id: true,
           },
         },
+
+        oneToOne: {
+          select: {
+            id: true,
+          },
+        },
+
+        oneToOne_2: {
+          select: {
+            id: true,
+          },
+        },
       },
     });
   }
@@ -118,6 +154,18 @@ export class TestControllerBase {
         updatedAt: true,
 
         user: {
+          select: {
+            id: true,
+          },
+        },
+
+        oneToOne: {
+          select: {
+            id: true,
+          },
+        },
+
+        oneToOne_2: {
           select: {
             id: true,
           },
@@ -157,6 +205,18 @@ export class TestControllerBase {
                 connect: data.user,
               }
             : undefined,
+
+          oneToOne: data.oneToOne
+            ? {
+                connect: data.oneToOne,
+              }
+            : undefined,
+
+          oneToOne_2: data.oneToOne_2
+            ? {
+                connect: data.oneToOne_2,
+              }
+            : undefined,
         },
         select: {
           id: true,
@@ -164,6 +224,18 @@ export class TestControllerBase {
           updatedAt: true,
 
           user: {
+            select: {
+              id: true,
+            },
+          },
+
+          oneToOne: {
+            select: {
+              id: true,
+            },
+          },
+
+          oneToOne_2: {
             select: {
               id: true,
             },
@@ -201,6 +273,18 @@ export class TestControllerBase {
           updatedAt: true,
 
           user: {
+            select: {
+              id: true,
+            },
+          },
+
+          oneToOne: {
+            select: {
+              id: true,
+            },
+          },
+
+          oneToOne_2: {
             select: {
               id: true,
             },

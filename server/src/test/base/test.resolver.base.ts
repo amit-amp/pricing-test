@@ -26,6 +26,8 @@ import { TestFindManyArgs } from "./TestFindManyArgs";
 import { TestFindUniqueArgs } from "./TestFindUniqueArgs";
 import { Test } from "./Test";
 import { User } from "../../user/base/User";
+import { Order } from "../../order/base/Order";
+import { Customer } from "../../customer/base/Customer";
 import { TestService } from "../test.service";
 
 @graphql.Resolver(() => Test)
@@ -99,6 +101,18 @@ export class TestResolverBase {
               connect: args.data.user,
             }
           : undefined,
+
+        oneToOne: args.data.oneToOne
+          ? {
+              connect: args.data.oneToOne,
+            }
+          : undefined,
+
+        oneToOne_2: args.data.oneToOne_2
+          ? {
+              connect: args.data.oneToOne_2,
+            }
+          : undefined,
       },
     });
   }
@@ -120,6 +134,18 @@ export class TestResolverBase {
           user: args.data.user
             ? {
                 connect: args.data.user,
+              }
+            : undefined,
+
+          oneToOne: args.data.oneToOne
+            ? {
+                connect: args.data.oneToOne,
+              }
+            : undefined,
+
+          oneToOne_2: args.data.oneToOne_2
+            ? {
+                connect: args.data.oneToOne_2,
               }
             : undefined,
         },
@@ -162,6 +188,38 @@ export class TestResolverBase {
   })
   async user(@graphql.Parent() parent: Test): Promise<User | null> {
     const result = await this.service.getUser(parent.id);
+
+    if (!result) {
+      return null;
+    }
+    return result;
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @graphql.ResolveField(() => Order, { nullable: true })
+  @nestAccessControl.UseRoles({
+    resource: "Order",
+    action: "read",
+    possession: "any",
+  })
+  async oneToOne(@graphql.Parent() parent: Test): Promise<Order | null> {
+    const result = await this.service.getOneToOne(parent.id);
+
+    if (!result) {
+      return null;
+    }
+    return result;
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @graphql.ResolveField(() => Customer, { nullable: true })
+  @nestAccessControl.UseRoles({
+    resource: "Customer",
+    action: "read",
+    possession: "any",
+  })
+  async oneToOne_2(@graphql.Parent() parent: Test): Promise<Customer | null> {
+    const result = await this.service.getOneToOne_2(parent.id);
 
     if (!result) {
       return null;

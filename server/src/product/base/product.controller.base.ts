@@ -223,6 +223,12 @@ export class ProductControllerBase {
             id: true,
           },
         },
+
+        tests: {
+          select: {
+            id: true,
+          },
+        },
       },
     });
     if (results === null) {

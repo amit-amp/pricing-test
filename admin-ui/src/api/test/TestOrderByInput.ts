@@ -5,4 +5,6 @@ export type TestOrderByInput = {
   createdAt?: SortOrder;
   updatedAt?: SortOrder;
   userId?: SortOrder;
+  oneToOneId?: SortOrder;
+  oneToOne_2Id?: SortOrder;
 };
