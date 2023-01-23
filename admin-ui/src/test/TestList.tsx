@@ -8,14 +8,14 @@ import {
   ReferenceField,
 } from "react-admin";
 import Pagination from "../Components/Pagination";
-import { TEST_TITLE_FIELD } from "../test/TestTitle";
+import { USER_TITLE_FIELD } from "../user/UserTitle";
 
-export const UserList = (props: ListProps): React.ReactElement => {
+export const TestList = (props: ListProps): React.ReactElement => {
   return (
     <List
       {...props}
       bulkActionButtons={false}
-      title={"Users"}
+      title={"Tests"}
       perPage={50}
       pagination={<Pagination />}
     >
@@ -23,12 +23,8 @@ export const UserList = (props: ListProps): React.ReactElement => {
         <TextField label="ID" source="id" />
         <DateField source="createdAt" label="Created At" />
         <DateField source="updatedAt" label="Updated At" />
-        <TextField label="First Name" source="firstName" />
-        <TextField label="Last Name" source="lastName" />
-        <TextField label="Username" source="username" />
-        <TextField label="Roles" source="roles" />
-        <ReferenceField label="Tests" source="test.id" reference="Test">
-          <TextField source={TEST_TITLE_FIELD} />
+        <ReferenceField label="User" source="user.id" reference="User">
+          <TextField source={USER_TITLE_FIELD} />
         </ReferenceField>
       </Datagrid>
     </List>

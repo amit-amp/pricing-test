@@ -19,31 +19,31 @@ import { isRecordNotFoundError } from "../../prisma.util";
 import { MetaQueryPayload } from "../../util/MetaQueryPayload";
 import { AclFilterResponseInterceptor } from "../../interceptors/aclFilterResponse.interceptor";
 import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
-import { CreateUserArgs } from "./CreateUserArgs";
-import { UpdateUserArgs } from "./UpdateUserArgs";
-import { DeleteUserArgs } from "./DeleteUserArgs";
-import { UserFindManyArgs } from "./UserFindManyArgs";
-import { UserFindUniqueArgs } from "./UserFindUniqueArgs";
-import { User } from "./User";
-import { Test } from "../../test/base/Test";
-import { UserService } from "../user.service";
+import { CreateTestArgs } from "./CreateTestArgs";
+import { UpdateTestArgs } from "./UpdateTestArgs";
+import { DeleteTestArgs } from "./DeleteTestArgs";
+import { TestFindManyArgs } from "./TestFindManyArgs";
+import { TestFindUniqueArgs } from "./TestFindUniqueArgs";
+import { Test } from "./Test";
+import { User } from "../../user/base/User";
+import { TestService } from "../test.service";
 
-@graphql.Resolver(() => User)
+@graphql.Resolver(() => Test)
 @common.UseGuards(GqlDefaultAuthGuard, gqlACGuard.GqlACGuard)
-export class UserResolverBase {
+export class TestResolverBase {
   constructor(
-    protected readonly service: UserService,
+    protected readonly service: TestService,
     protected readonly rolesBuilder: nestAccessControl.RolesBuilder
   ) {}
 
   @graphql.Query(() => MetaQueryPayload)
   @nestAccessControl.UseRoles({
-    resource: "User",
+    resource: "Test",
     action: "read",
     possession: "any",
   })
-  async _usersMeta(
-    @graphql.Args() args: UserFindManyArgs
+  async _testsMeta(
+    @graphql.Args() args: TestFindManyArgs
   ): Promise<MetaQueryPayload> {
     const results = await this.service.count({
       ...args,
@@ -56,24 +56,24 @@ export class UserResolverBase {
   }
 
   @common.UseInterceptors(AclFilterResponseInterceptor)
-  @graphql.Query(() => [User])
+  @graphql.Query(() => [Test])
   @nestAccessControl.UseRoles({
-    resource: "User",
+    resource: "Test",
     action: "read",
     possession: "any",
   })
-  async users(@graphql.Args() args: UserFindManyArgs): Promise<User[]> {
+  async tests(@graphql.Args() args: TestFindManyArgs): Promise<Test[]> {
     return this.service.findMany(args);
   }
 
   @common.UseInterceptors(AclFilterResponseInterceptor)
-  @graphql.Query(() => User, { nullable: true })
+  @graphql.Query(() => Test, { nullable: true })
   @nestAccessControl.UseRoles({
-    resource: "User",
+    resource: "Test",
     action: "read",
     possession: "own",
   })
-  async user(@graphql.Args() args: UserFindUniqueArgs): Promise<User | null> {
+  async test(@graphql.Args() args: TestFindUniqueArgs): Promise<Test | null> {
     const result = await this.service.findOne(args);
     if (result === null) {
       return null;
@@ -82,21 +82,21 @@ export class UserResolverBase {
   }
 
   @common.UseInterceptors(AclValidateRequestInterceptor)
-  @graphql.Mutation(() => User)
+  @graphql.Mutation(() => Test)
   @nestAccessControl.UseRoles({
-    resource: "User",
+    resource: "Test",
     action: "create",
     possession: "any",
   })
-  async createUser(@graphql.Args() args: CreateUserArgs): Promise<User> {
+  async createTest(@graphql.Args() args: CreateTestArgs): Promise<Test> {
     return await this.service.create({
       ...args,
       data: {
         ...args.data,
 
-        tests: args.data.tests
+        user: args.data.user
           ? {
-              connect: args.data.tests,
+              connect: args.data.user,
             }
           : undefined,
       },
@@ -104,22 +104,22 @@ export class UserResolverBase {
   }
 
   @common.UseInterceptors(AclValidateRequestInterceptor)
-  @graphql.Mutation(() => User)
+  @graphql.Mutation(() => Test)
   @nestAccessControl.UseRoles({
-    resource: "User",
+    resource: "Test",
     action: "update",
     possession: "any",
   })
-  async updateUser(@graphql.Args() args: UpdateUserArgs): Promise<User | null> {
+  async updateTest(@graphql.Args() args: UpdateTestArgs): Promise<Test | null> {
     try {
       return await this.service.update({
         ...args,
         data: {
           ...args.data,
 
-          tests: args.data.tests
+          user: args.data.user
             ? {
-                connect: args.data.tests,
+                connect: args.data.user,
               }
             : undefined,
         },
@@ -134,13 +134,13 @@ export class UserResolverBase {
     }
   }
 
-  @graphql.Mutation(() => User)
+  @graphql.Mutation(() => Test)
   @nestAccessControl.UseRoles({
-    resource: "User",
+    resource: "Test",
     action: "delete",
     possession: "any",
   })
-  async deleteUser(@graphql.Args() args: DeleteUserArgs): Promise<User | null> {
+  async deleteTest(@graphql.Args() args: DeleteTestArgs): Promise<Test | null> {
     try {
       return await this.service.delete(args);
     } catch (error) {
@@ -154,14 +154,14 @@ export class UserResolverBase {
   }
 
   @common.UseInterceptors(AclFilterResponseInterceptor)
-  @graphql.ResolveField(() => Test, { nullable: true })
+  @graphql.ResolveField(() => User, { nullable: true })
   @nestAccessControl.UseRoles({
-    resource: "Test",
+    resource: "User",
     action: "read",
     possession: "any",
   })
-  async tests(@graphql.Parent() parent: User): Promise<Test | null> {
-    const result = await this.service.getTests(parent.id);
+  async user(@graphql.Parent() parent: Test): Promise<User | null> {
+    const result = await this.service.getUser(parent.id);
 
     if (!result) {
       return null;

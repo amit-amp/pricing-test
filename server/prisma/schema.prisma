@@ -16,6 +16,8 @@ model User {
   username  String   @unique
   password  String
   roles     Json
+  tests     Test?    @relation(fields: [testsId], references: [id])
+  testsId   String?  @unique
 }
 
 model Order {
@@ -64,4 +66,11 @@ model Product {
   itemPrice   Float?
   description String?
   orders      Order[]
+}
+
+model Test {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User?
 }
